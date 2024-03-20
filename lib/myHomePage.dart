@@ -1,4 +1,5 @@
 import 'package:dam_u2_tarea2/login.dart';
+import 'package:dam_u2_tarea2/mostrar.dart';
 import 'package:flutter/material.dart';
 
 import 'capturar.dart';
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(child: const Text('Canciones')),
+            const DrawerHeader(child: const Text('Canciones')),
             itemDrawer(1, Icons.app_registration, 'CAPTURAR'),
             itemDrawer(2, Icons.remove_red_eye, 'MOSTRAR'),
             itemDrawer(3, Icons.delete, 'ELIMINAR'),
@@ -97,6 +98,9 @@ class _HomePageState extends State<HomePage> {
     switch(_indice){
       case 1:{
         return CancionForm();
+      }
+      case 2: {
+        return ListaCancionesScreen();
       }
     }
     return ListView();
