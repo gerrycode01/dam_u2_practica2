@@ -51,6 +51,7 @@ class _LoginState extends State<Login> {
               child: TextFormField(
                 controller: userController,
                 decoration: const InputDecoration(
+                  suffixIcon: Icon(Icons.people_alt),
                   border: OutlineInputBorder(),
                   labelText: 'User',
                 ),
@@ -71,7 +72,9 @@ class _LoginState extends State<Login> {
                 controller: passwController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Password'),
+                    suffixIcon: Icon(Icons.remove_red_eye),
+                    border: OutlineInputBorder(),
+                    labelText: 'Password'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
@@ -88,8 +91,12 @@ class _LoginState extends State<Login> {
                   const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
               child: Center(
                 child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      userController.clear();
+                      passwController.clear();
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -100,7 +107,10 @@ class _LoginState extends State<Login> {
                       );
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
