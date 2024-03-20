@@ -1,6 +1,12 @@
 import 'package:dam_u2_tarea2/login.dart';
 import 'package:flutter/material.dart';
 
+import 'capturar.dart';
+
+void main() {
+  runApp(const MyHomePage());
+}
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -21,6 +27,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _indice = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,24 +43,63 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
-      body: const Text('Hola'),
+      body: dinamico(),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(child: const Text('Canciones')),
-            ListTile(title: const Text('CAPTURAR'),),
+            itemDrawer(1, Icons.app_registration, 'CAPTURAR'),
+            itemDrawer(2, Icons.remove_red_eye, 'MOSTRAR'),
+            itemDrawer(3, Icons.delete, 'ELIMINAR'),
+            itemDrawer(4, Icons.update, 'ACTUALIZAR'),
             ListTile(
-              title: const Text('CERRAR SESION'),
+              title: const Row(
+                children: [
+                  Expanded(child: Icon(Icons.close)),
+                  Expanded(flex: 2, child: Text('CERRAR SESION'),)
+                ],
+              ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),
                 );
-            },)
+              },
+            )
           ],
         ),
       ),
     );
   }
+
+  Widget itemDrawer(int indice, IconData icono, String etiqueta) {
+    return ListTile(
+      onTap: () {
+        setState(() {
+          _indice = indice;
+        });
+        Navigator.pop(context);
+      },
+      title: Row(
+        children: [
+          Expanded(child: Icon(icono)),
+          Expanded(
+            flex: 2,
+            child: Text(etiqueta),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget dinamico() {
+    switch(_indice){
+      case 1:{
+        return CancionForm();
+      }
+    }
+    return ListView();
+  }
+
 }
