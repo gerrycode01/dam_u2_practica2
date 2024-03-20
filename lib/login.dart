@@ -1,3 +1,4 @@
+import 'package:dam_u2_tarea2/myHomePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -57,7 +58,7 @@ class _LoginState extends State<Login> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your user';
                   }
-                  if(value != 'gerry'){
+                  if (value != 'gerry') {
                     return 'Incorrect User';
                   }
                   return null;
@@ -65,17 +66,17 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
                 controller: passwController,
                 obscureText: true,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Password'),
-                validator: (value){
-                  if(value == null || value.isEmpty){
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
-                  if(value != 'admin'){
+                  if (value != 'admin') {
                     return 'Incorrect Password';
                   }
                   return null;
@@ -84,12 +85,15 @@ class _LoginState extends State<Login> {
             ),
             Padding(
               padding:
-              const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Navigate the user to the Home page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Please fill input')),
