@@ -25,11 +25,19 @@ class CancionForm extends StatefulWidget {
 
 class _CancionFormState extends State<CancionForm> {
   final _formKey = GlobalKey<FormState>();
+  List<Cancion> canciones = [];
 
   final _tituloController = TextEditingController();
   final _artistaController = TextEditingController();
   final _duracionController = TextEditingController();
   final _generoController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _cargarCanciones();
+  }
 
   @override
   void dispose() {
@@ -38,6 +46,13 @@ class _CancionFormState extends State<CancionForm> {
     _duracionController.dispose();
     _generoController.dispose();
     super.dispose();
+  }
+
+  void _cargarCanciones() async {
+    final listaCanciones = await BD.cargarDatos();
+    setState(() {
+      canciones = listaCanciones;
+    });
   }
 
   void _limpiarFormulario() {
@@ -78,7 +93,8 @@ class _CancionFormState extends State<CancionForm> {
             ),
             TextFormField(
               controller: _duracionController,
-              decoration: const InputDecoration(labelText: 'Duración (segundos)'),
+              decoration: const InputDecoration(
+                  labelText: 'Duración (segundos)'),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -105,11 +121,12 @@ class _CancionFormState extends State<CancionForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    BD.canciones.add(Cancion(titulo: _tituloController.text,
+                    Cancion nuevaCancion = Cancion(titulo: _tituloController.text,
                         artista: _artistaController.text,
                         duracion: int.parse(_duracionController.text),
-                        genero: _generoController.text));
-                    BD.guardarArchivo();
+                        genero: _generoController.text);
+                    BD.nuevaCancion(canciones, nuevaCancion);
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Procesando Datos')),
                     );
