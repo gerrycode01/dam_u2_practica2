@@ -1,3 +1,4 @@
+import 'package:dam_u2_tarea2/eliminar.dart';
 import 'package:dam_u2_tarea2/login.dart';
 import 'package:dam_u2_tarea2/mostrar.dart';
 import 'package:dam_u2_tarea2/update.dart';
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> {
         return ListaCancionesScreen();
       }
       case 3:{
-
+        return EliminarCanciones();
       }
       case 4: {
         return UpdateListaCanciones();

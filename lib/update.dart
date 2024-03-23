@@ -55,57 +55,99 @@ class _UpdateListaCancionesState extends State<UpdateListaCanciones> {
         itemBuilder: (context, index) {
           Cancion cancion = canciones[index];
           return ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.album_sharp),),
+            leading: const CircleAvatar(
+              child: Icon(Icons.album_sharp),
+            ),
             title: Text(cancion.titulo),
             subtitle: Text(
                 '${cancion.artista} - Duración: ${cancion
                     .duracion}s - Género: ${cancion.genero}'),
-            trailing: Icon(Icons.update),
-            onTap: (){
+            trailing: const Icon(Icons.update),
+            onTap: () {
               _tituloController.text = cancion.titulo;
               _artistaController.text = cancion.artista;
               _duracionController.text = cancion.duracion.toString();
               _generoController.text = cancion.genero;
 
-              showModalBottomSheet(context: context, builder: (BuildContext context){
-                return Container(
-                  height: 200,
-                  child: ListView(
-                    padding: const EdgeInsets.all(8),
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_tituloController.text.isEmpty ||
-                              _artistaController.text.isEmpty ||
-                              _duracionController.text.isEmpty ||
-                              _generoController.text.isEmpty) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text('Error'),
-                                  content: const Text('Todos los campos son obligatorios.'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: const Text('OK'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(); // Cerrar el AlertDialog
-                                      },
-                                    ),
-                                  ],
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    height: 350,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _tituloController,
+                            decoration:
+                            const InputDecoration(labelText: 'Título'),
+                          ),
+                          TextField(
+                            controller: _artistaController,
+                            decoration:
+                            const InputDecoration(labelText: 'Artista'),
+                          ),
+                          TextField(
+                            controller: _duracionController,
+                            decoration: const InputDecoration(
+                              labelText: 'Duración (segundos)',
+                            ),
+                            keyboardType: TextInputType
+                                .number,
+                          ),
+
+                          TextField(
+                            controller: _generoController,
+                            decoration:
+                            const InputDecoration(labelText: 'Género'),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_tituloController.text.isEmpty ||
+                                  _artistaController.text.isEmpty ||
+                                  _duracionController.text.isEmpty ||
+                                  _generoController.text.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Error'),
+                                      content: const Text(
+                                          'Todos los campos son obligatorios.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Cerrar el AlertDialog
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
-                              },
-                            );
-                          } else {
-                            BD.actualizarCancion(canciones, cancion, index);
-                          }
-                        },
-                        child: const Text('ACTUALIZAR'),
+                              } else {
+                                Cancion nuevaCancion = Cancion(titulo: _tituloController.text,
+                                    artista: _artistaController.text,
+                                    duracion: int.parse(_duracionController.text),
+                                    genero: _generoController.text);
+                                BD.actualizarCancion(canciones, nuevaCancion, index);
+
+                                Navigator.pop(
+                                    context); // Cerrar el ModalBottomSheet
+                                _cargarCanciones();
+                              }
+                            },
+                            child: const Text('ACTUALIZAR'),
+                          ),
+                        ],
                       ),
-                    ],
-                  )
-                );
-              });
+                    ),
+                  );
+                },
+              );
             },
           );
         });
