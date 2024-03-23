@@ -41,7 +41,7 @@ class BD {
       canciones.add(cancion);
       cancion.mostrarInformacion();
     });
-    print('BD: DATOS CARGADOS DEL ALMACEN, RETORNANDO LISTA');
+    print('BD: DATOS CARGADOS DEL ALMACEN, LISTA RETORNADA');
     return canciones;
   }
 

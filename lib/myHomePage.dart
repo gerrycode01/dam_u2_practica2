@@ -1,5 +1,6 @@
 import 'package:dam_u2_tarea2/login.dart';
 import 'package:dam_u2_tarea2/mostrar.dart';
+import 'package:dam_u2_tarea2/update.dart';
 import 'package:flutter/material.dart';
 
 import 'capturar.dart';
@@ -101,6 +102,12 @@ class _HomePageState extends State<HomePage> {
       }
       case 2: {
         return ListaCancionesScreen();
+      }
+      case 3:{
+
+      }
+      case 4: {
+        return UpdateListaCanciones();
       }
     }
     return ListView();

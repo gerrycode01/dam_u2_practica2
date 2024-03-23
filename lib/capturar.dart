@@ -120,6 +120,12 @@ class _CancionFormState extends State<CancionForm> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () {
+                  if(canciones.length >= 10){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Lista llena')),
+                    );
+                    return;
+                  }
                   if (_formKey.currentState!.validate()) {
                     Cancion nuevaCancion = Cancion(titulo: _tituloController.text,
                         artista: _artistaController.text,
